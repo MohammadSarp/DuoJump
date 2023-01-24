@@ -13,7 +13,7 @@ public class FollowCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Vector3 newPos = new Vector3(target.transform.position.x + 3f, transform.position.y, -1f);
         transform.position = newPos;
