@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < numberOfPlatforms; i++)
         {
             spawnPos.x += Random.Range(10f, 20f);
-            spawnPos.y = -3.75f;
+            spawnPos.y = -3.5f;
             Instantiate(boxPrefab, spawnPos, Quaternion.identity);
             Debug.Log(spawnPos);
         }        
