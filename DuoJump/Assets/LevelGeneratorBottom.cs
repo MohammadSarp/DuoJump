@@ -17,7 +17,6 @@ public class LevelGeneratorBottom : MonoBehaviour
             spawnPos.x += Random.Range(10f, 20f);
             spawnPos.y = boxPrefab.transform.position.y;
             Instantiate(boxPrefab, spawnPos, Quaternion.identity);
-            Debug.Log(spawnPos);
         }        
     }
 

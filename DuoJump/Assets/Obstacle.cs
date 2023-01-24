@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-
     public Player player;
+
+    public float distanceObstaclePlayer = -5f;
+
+
+    void Update(){
+        ObstacleCleaner();
+    }
+
 
     void OnCollisionEnter2D(Collision2D collision){
         
@@ -14,4 +21,13 @@ public class Obstacle : MonoBehaviour
             player.Die();            
         }
     }
+
+    void ObstacleCleaner(){
+        float distance = player.transform.position.x - transform.position.x;
+        if (distance > distanceObstaclePlayer){
+            Destroy(gameObject);
+        }
+    }
+
+    
 }

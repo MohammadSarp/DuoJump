@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class Player : MonoBehaviour
     public float jumpForce = 5f;
     bool isTopGround;
     bool isBottomGround;
-    public GameObject playerPrefab;
+    public GameObject player1Prefab;
+    public GameObject player2Prefab;
+
     public GameObject startPoint;
+    public GameObject restartPanel;
     Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -36,14 +40,14 @@ public class Player : MonoBehaviour
 
     void Jump(){
 
-        if(isTopGround == true && Input.GetKeyDown(KeyCode.Space) && isPlayer1){
+        if(isTopGround == true && Input.GetKeyDown(KeyCode.W) && isPlayer1){
             Vector2 velocity = rb.velocity;
             velocity.y = jumpForce;
             rb.velocity = velocity;
         }
 
 
-        else if (isBottomGround == true && Input.GetKeyDown(KeyCode.W) && isPlayer1 == false){
+        else if (isBottomGround == true && Input.GetKeyDown(KeyCode.Space) && isPlayer1 == false){
             Vector2 velocity = rb.velocity;
             velocity.y = jumpForce;
             rb.velocity = velocity;
@@ -52,8 +56,13 @@ public class Player : MonoBehaviour
     }
 
     public void Die(){
-        Vector3 newPos = new Vector3 (startPoint.transform.position.x, startPoint.transform.position.y, 2);
-        transform.position = newPos;
+        Rigidbody2D rbPlayer1 = player1Prefab.GetComponent<Rigidbody2D>();
+        rbPlayer1.constraints = RigidbodyConstraints2D.FreezePosition;
+
+        Rigidbody2D rbPlayer2 = player2Prefab.GetComponent<Rigidbody2D>();
+        rbPlayer2.constraints = RigidbodyConstraints2D.FreezePosition;
+
+        Invoke("ShowRestartPanel", 1f);
     }
 
 
@@ -76,4 +85,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    void ShowRestartPanel(){
+        restartPanel.SetActive(true);
+    }
+
+    public void Restart(){
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        ScoreCounter.score = 0;
+    }
 }
