@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     public GameObject restartPanel;
     Rigidbody2D rb;
 
+    bool activeRestartButton = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,8 @@ public class Player : MonoBehaviour
     {
         Jump();
         Movement();
+        RestartWithEnter();
+        
     }
 
     void Movement(){
@@ -38,19 +42,21 @@ public class Player : MonoBehaviour
     }
 
 
-    void Jump(){
+    public void Jump(){
 
         if(isTopGround == true && Input.GetKeyDown(KeyCode.W) && isPlayer1){
-            Vector2 velocity = rb.velocity;
+            Rigidbody2D p1Rb = player1Prefab.GetComponent<Rigidbody2D>();
+            Vector2 velocity = p1Rb.velocity;
             velocity.y = jumpForce;
-            rb.velocity = velocity;
+            p1Rb.velocity = velocity;
         }
 
 
         else if (isBottomGround == true && Input.GetKeyDown(KeyCode.Space) && isPlayer1 == false){
-            Vector2 velocity = rb.velocity;
+            Rigidbody2D p2Rb = player2Prefab.GetComponent<Rigidbody2D>();
+            Vector2 velocity = p2Rb.velocity;
             velocity.y = jumpForce;
-            rb.velocity = velocity;
+            p2Rb.velocity = velocity;
         }
         
     }
@@ -87,10 +93,41 @@ public class Player : MonoBehaviour
 
     void ShowRestartPanel(){
         restartPanel.SetActive(true);
+        activeRestartButton = true;
+        
     }
 
     public void Restart(){
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
         ScoreCounter.score = 0;
+        activeRestartButton = false;
     }
+
+    void RestartWithEnter(){
+
+        if(activeRestartButton && Input.GetKeyDown(KeyCode.Return)){
+            Restart();
+        }
+    }
+
+    public void JumpButtonTop(){
+        if(isTopGround == true){
+        Rigidbody2D p1Rb = player1Prefab.GetComponent<Rigidbody2D>();
+        Vector2 velocity = p1Rb.velocity;
+        velocity.y = jumpForce;
+        p1Rb.velocity = velocity;
+        }
+    }
+
+    public void JumpButtonBottom(){
+        if(isBottomGround == true){
+        Rigidbody2D p2Rb = player2Prefab.GetComponent<Rigidbody2D>();
+        Vector2 velocity = p2Rb.velocity;
+        velocity.y = jumpForce;
+        p2Rb.velocity = velocity;
+        }
+        
+    }
+
+
 }

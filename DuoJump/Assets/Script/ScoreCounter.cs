@@ -8,11 +8,15 @@ public class ScoreCounter : MonoBehaviour
 
 
     public static int score;
-    public Text scoreText;
+
+    public Text liveScore;
+    public Text restartPanelScore;
+
 
 
     void Update(){
-        scoreText.text = score.ToString();
+        restartPanelScore.text = score.ToString();
+        liveScore.text = score.ToString();
     }
 
     void OnTriggerEnter2D(Collider2D collision){
