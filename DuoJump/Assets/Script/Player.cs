@@ -13,12 +13,14 @@ public class Player : MonoBehaviour
     bool isBottomGround;
     public GameObject player1Prefab;
     public GameObject player2Prefab;
-
     public GameObject startPoint;
     public GameObject restartPanel;
-    Rigidbody2D rb;
+    public GameObject rightScore;
 
+    Rigidbody2D rb;
     bool activeRestartButton = false;
+
+    bool activeRightHighScore = true;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,6 @@ public class Player : MonoBehaviour
         Jump();
         Movement();
         RestartWithEnter();
-        
     }
 
     void Movement(){
@@ -93,7 +94,10 @@ public class Player : MonoBehaviour
 
     void ShowRestartPanel(){
         restartPanel.SetActive(true);
+        rightScore.SetActive(false);
         activeRestartButton = true;
+        activeRightHighScore = false;
+
         
     }
 
@@ -101,6 +105,8 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
         ScoreCounter.score = 0;
         activeRestartButton = false;
+        activeRightHighScore = true;
+        rightScore.SetActive(true);
     }
 
     void RestartWithEnter(){
@@ -129,5 +135,16 @@ public class Player : MonoBehaviour
         
     }
 
+    public void ContinueTheGame(){
+        Rigidbody2D rbPlayer1 = player1Prefab.GetComponent<Rigidbody2D>();
+        Rigidbody2D rbPlayer2 = player2Prefab.GetComponent<Rigidbody2D>();  
+        rbPlayer1.constraints = RigidbodyConstraints2D.None;
+        rbPlayer2.constraints = RigidbodyConstraints2D.None;
+        rbPlayer1.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rbPlayer2.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+    
+
+    
 
 }
